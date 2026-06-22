@@ -140,22 +140,37 @@ document.getElementById('clear-history').addEventListener('click', () => {
 renderHistory();
 
 // ---- 당첨 번호 조회 ----
-const CORS_PROXY = 'https://api.allorigins.win/get?url=';
-const LOTTO_API  = 'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=';
+const LOTTO_API = 'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=';
 
-// 1회차(2002-12-07) 기준으로 현재 최신 회차 추산
+// 추첨은 매주 토요일 20:35 KST — 아직 추첨 안 된 회차 요청을 피하기 위해
+// 가장 최근에 완료된 토요일 기준으로 회차 계산
 function estimateLatestRound() {
-  const round1Ms = new Date('2002-12-07').getTime();
-  const nowMs    = Date.now();
-  return Math.floor((nowMs - round1Ms) / (7 * 24 * 60 * 60 * 1000)) + 1;
+  const round1 = new Date('2002-12-07T20:35:00+09:00').getTime();
+  const now    = Date.now();
+  return Math.max(1, Math.floor((now - round1) / (7 * 24 * 60 * 60 * 1000)));
+}
+
+async function tryFetch(proxyUrl) {
+  const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(7000) });
+  if (!res.ok) throw new Error('network');
+  return res;
 }
 
 async function fetchLottoResult(drwNo) {
-  const target = encodeURIComponent(LOTTO_API + drwNo);
-  const res = await fetch(CORS_PROXY + target);
-  if (!res.ok) throw new Error('network');
-  const wrapper = await res.json();
-  const data = JSON.parse(wrapper.contents);
+  const encoded = encodeURIComponent(LOTTO_API + drwNo);
+  let data;
+
+  // 1순위: corsproxy.io (raw JSON 반환, 단순)
+  try {
+    const res = await tryFetch('https://corsproxy.io/?' + encoded);
+    data = await res.json();
+  } catch {
+    // 2순위: allorigins.win (래퍼 JSON 반환)
+    const res = await tryFetch('https://api.allorigins.win/get?url=' + encoded);
+    const wrapper = await res.json();
+    data = JSON.parse(wrapper.contents);
+  }
+
   if (data.returnValue !== 'success') throw new Error('not found');
   return data;
 }
@@ -218,10 +233,21 @@ function setLookupError(msg) {
   document.getElementById('lookup-result').innerHTML = `<div class="lookup-error">${msg}</div>`;
 }
 
-async function lookup(drwNo) {
+async function lookup(drwNo, autoRetry = false) {
   setLookupStatus('조회 중...', true);
   try {
-    const data = await fetchLottoResult(drwNo);
+    let data;
+    try {
+      data = await fetchLottoResult(drwNo);
+    } catch (e) {
+      // 회차가 아직 발표 전인 경우 이전 회차 자동 재시도 (최신 회차 버튼 한정)
+      if (e.message === 'not found' && autoRetry && drwNo > 1) {
+        data = await fetchLottoResult(drwNo - 1);
+        document.getElementById('round-input').value = drwNo - 1;
+      } else {
+        throw e;
+      }
+    }
     renderLookupResult(data);
   } catch {
     setLookupError('조회에 실패했습니다. 회차 번호를 확인하거나 잠시 후 다시 시도해주세요.');
@@ -241,5 +267,5 @@ document.getElementById('round-input').addEventListener('keydown', e => {
 document.getElementById('latest-btn').addEventListener('click', () => {
   const est = estimateLatestRound();
   document.getElementById('round-input').value = est;
-  lookup(est);
+  lookup(est, true); // autoRetry: 발표 전이면 이전 회차 자동 조회
 });
