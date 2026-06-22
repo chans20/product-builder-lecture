@@ -1,3 +1,17 @@
+// 쿠키 동의 배너
+(function () {
+  if (!localStorage.getItem('cookie-consent')) {
+    const banner = document.getElementById('cookie-banner');
+    if (banner) {
+      banner.style.display = 'flex';
+      document.getElementById('cookie-accept').addEventListener('click', () => {
+        localStorage.setItem('cookie-consent', '1');
+        banner.style.display = 'none';
+      });
+    }
+  }
+})();
+
 const MIN = 1, MAX = 45, PICK = 6;
 const MAX_SETS = 10, MIN_SETS = 1;
 

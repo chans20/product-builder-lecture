@@ -4,17 +4,52 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="google-adsense-account" content="ca-pub-3485001053572124">
-  <title>로또 번호 추천</title>
+  <meta name="description" content="로또 6/45 번호 자동 추천, 역대 당첨 번호 조회, 추첨 기록 관리까지 한 번에. 무료로 행운의 번호를 뽑아보세요.">
+  <title>로또 번호 추천 — 무료 자동 추첨 & 당첨 번호 조회</title>
   <link href='/style.css' rel='stylesheet'>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3485001053572124"
      crossorigin="anonymous"></script>
 </head>
 <body>
+
+  <!-- 쿠키 동의 배너 -->
+  <div id="cookie-banner" class="cookie-banner" style="display:none">
+    <p>이 사이트는 서비스 개선과 맞춤 광고 제공을 위해 쿠키를 사용합니다.
+      <a href="/privacy.html">개인정보처리방침</a>
+    </p>
+    <button id="cookie-accept" class="cookie-accept-btn">동의</button>
+  </div>
+
+  <!-- 상단 네비게이션 -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">🍀 로또 번호 추천</a>
+      <div class="nav-links">
+        <a href="/about.html">소개</a>
+        <a href="/privacy.html">개인정보처리방침</a>
+      </div>
+    </div>
+  </nav>
+
   <div class="container">
     <header>
       <h1>🍀 로또 번호 추천</h1>
       <p class="subtitle">행운의 번호를 뽑아보세요!</p>
+      <p class="site-desc">
+        로또 6/45 번호를 무작위로 추천해 드립니다. 최대 10게임을 한 번에 생성하고,
+        역대 당첨 번호도 바로 조회해보세요. 추첨 기록은 자동으로 저장됩니다.
+      </p>
     </header>
+
+    <section class="how-to">
+      <h2>이용 방법</h2>
+      <ol class="how-to-list">
+        <li><strong>게임 수 선택</strong> — 원하는 게임 수(1~10)를 설정하세요.</li>
+        <li><strong>번호 추천받기</strong> — 버튼을 누르면 1~45 중 6개 번호가 무작위로 생성됩니다.</li>
+        <li><strong>당첨 번호 조회</strong> — 최신 회차 또는 원하는 회차의 당첨 번호를 확인하세요.</li>
+        <li><strong>추첨 기록 확인</strong> — 이전에 생성한 번호는 하단 기록에서 다시 볼 수 있습니다.</li>
+      </ol>
+    </section>
 
     <section class="controls">
       <label for="set-count">추천 게임 수</label>
@@ -32,6 +67,7 @@
       <div class="section-title">
         <h2>🏆 당첨 번호 조회</h2>
       </div>
+      <p class="section-desc">동행복권 공식 데이터 기반으로 회차별 당첨 번호를 조회합니다.</p>
       <div class="lookup-controls">
         <button id="latest-btn" class="latest-btn">최신 회차 조회</button>
         <div class="round-row">
@@ -46,6 +82,7 @@
       <div class="section-title">
         <h2>🤝 제휴 문의</h2>
       </div>
+      <p class="section-desc">광고, 제휴, 협업 등 비즈니스 문의를 남겨주시면 빠르게 답변드리겠습니다.</p>
       <form id="contact-form" class="contact-form">
         <div class="form-row">
           <div class="form-group">
@@ -87,6 +124,20 @@
     </div>
     <div id="disqus_thread"></div>
   </section>
+
+  <!-- 푸터 -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-copy">© 2024 로또 번호 추천. All rights reserved.</p>
+      <nav class="footer-nav">
+        <a href="/about.html">소개</a>
+        <a href="/privacy.html">개인정보처리방침</a>
+      </nav>
+      <p class="footer-disclaimer">
+        본 사이트는 동행복권과 무관한 독립 서비스입니다. 번호 추천은 순수 난수 생성이며 당첨을 보장하지 않습니다.
+      </p>
+    </div>
+  </footer>
 
   <script defer type="text/javascript" src="/main.js"></script>
   <script>
