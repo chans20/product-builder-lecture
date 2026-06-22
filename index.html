@@ -78,6 +78,25 @@
     </section>
   </div>
 
+  <section class="disqus-section">
+    <div class="section-title">
+      <h2>💬 댓글</h2>
+    </div>
+    <div id="disqus_thread"></div>
+  </section>
+
   <script defer type="text/javascript" src="/main.js"></script>
+  <script>
+    var disqus_config = function () {
+      this.page.url = window.location.href;
+      this.page.identifier = 'lotto-main';
+    };
+    (function() {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://productbuilder.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
 </body>
 </html>
