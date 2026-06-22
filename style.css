@@ -412,7 +412,106 @@ header h1 {
   text-align: center;
 }
 
+/* Contact / Partnership Form */
+.contact-section {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.82rem;
+  color: #a0aec0;
+  font-weight: 500;
+}
+
+.required {
+  color: #f87171;
+}
+
+.form-group input,
+.form-group textarea {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: #fff;
+  font-size: 0.93rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  resize: vertical;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: #4a5568; }
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: rgba(102, 126, 234, 0.6);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #48bb78, #38a169);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 13px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 16px rgba(72, 187, 120, 0.35);
+  margin-top: 2px;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(72, 187, 120, 0.5);
+}
+
+.submit-btn:active { transform: translateY(0); }
+.submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+.form-status {
+  font-size: 0.88rem;
+  text-align: center;
+  min-height: 0;
+}
+
+.form-status.success {
+  color: #68d391;
+  padding: 8px 0;
+}
+
+.form-status.error {
+  color: #f87171;
+  padding: 8px 0;
+}
+
 @media (max-width: 480px) {
   header h1 { font-size: 1.8rem; }
   .ball { width: 38px; height: 38px; font-size: 0.82rem; }
+  .form-row { grid-template-columns: 1fr; }
 }

@@ -269,3 +269,38 @@ document.getElementById('latest-btn').addEventListener('click', () => {
   document.getElementById('round-input').value = est;
   lookup(est, true); // autoRetry: 발표 전이면 이전 회차 자동 조회
 });
+
+// ---- 제휴 문의 폼 (Formspree) ----
+const contactForm  = document.getElementById('contact-form');
+const submitBtn    = document.getElementById('submit-btn');
+const formStatusEl = document.getElementById('form-status');
+
+contactForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  submitBtn.disabled = true;
+  submitBtn.textContent = '전송 중...';
+  formStatusEl.className = 'form-status';
+  formStatusEl.textContent = '';
+
+  try {
+    const res = await fetch('https://formspree.io/f/xeebqewl', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(contactForm),
+    });
+
+    if (res.ok) {
+      formStatusEl.className = 'form-status success';
+      formStatusEl.textContent = '✓ 문의가 접수되었습니다. 빠르게 연락드리겠습니다!';
+      contactForm.reset();
+    } else {
+      throw new Error('server');
+    }
+  } catch {
+    formStatusEl.className = 'form-status error';
+    formStatusEl.textContent = '전송에 실패했습니다. 잠시 후 다시 시도해주세요.';
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = '문의 보내기';
+  }
+});

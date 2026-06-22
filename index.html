@@ -39,6 +39,34 @@
       <div id="lookup-result" class="lookup-result"></div>
     </section>
 
+    <section class="contact-section">
+      <div class="section-title">
+        <h2>🤝 제휴 문의</h2>
+      </div>
+      <form id="contact-form" class="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-name">이름 <span class="required">*</span></label>
+            <input type="text" id="f-name" name="name" placeholder="홍길동" required>
+          </div>
+          <div class="form-group">
+            <label for="f-company">회사명</label>
+            <input type="text" id="f-company" name="company" placeholder="(주)행운">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="f-email">이메일 <span class="required">*</span></label>
+          <input type="email" id="f-email" name="email" placeholder="example@email.com" required>
+        </div>
+        <div class="form-group">
+          <label for="f-message">문의 내용 <span class="required">*</span></label>
+          <textarea id="f-message" name="message" rows="4" placeholder="제휴 제안 내용을 자유롭게 입력해주세요." required></textarea>
+        </div>
+        <button type="submit" class="submit-btn" id="submit-btn">문의 보내기</button>
+        <div id="form-status" class="form-status"></div>
+      </form>
+    </section>
+
     <section class="history-section">
       <div class="history-header">
         <h2>추첨 기록</h2>
