@@ -1,1 +1,254 @@
-/* Add styles here */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  min-height: 100vh;
+  color: #fff;
+  padding: 24px 16px;
+}
+
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+header h1 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  color: #a0aec0;
+  margin-top: 6px;
+  font-size: 1rem;
+}
+
+/* Controls */
+.controls {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.controls label {
+  font-size: 0.9rem;
+  color: #a0aec0;
+  letter-spacing: 0.4px;
+}
+
+.count-selector {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.count-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  line-height: 1;
+}
+
+.count-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+#set-count {
+  font-size: 1.8rem;
+  font-weight: 700;
+  min-width: 32px;
+  text-align: center;
+}
+
+.generate-btn {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 40px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+  width: 100%;
+}
+
+.generate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(102, 126, 234, 0.55);
+}
+
+.generate-btn:active {
+  transform: translateY(0);
+}
+
+/* Results */
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.game-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  animation: slideIn 0.35s ease forwards;
+  opacity: 0;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.game-label {
+  font-size: 0.78rem;
+  color: #a0aec0;
+  font-weight: 600;
+  min-width: 36px;
+}
+
+.balls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ball {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  animation: popIn 0.3s ease backwards;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+/* Korean Lotto color rules */
+.ball.y  { background: linear-gradient(135deg, #f6c90e, #e8b200); }
+.ball.b  { background: linear-gradient(135deg, #4f8ef7, #2563eb); }
+.ball.r  { background: linear-gradient(135deg, #f87171, #dc2626); }
+.ball.g  { background: linear-gradient(135deg, #6b7280, #4b5563); }
+.ball.gr { background: linear-gradient(135deg, #34d399, #059669); }
+
+/* History */
+.history-section {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.history-header h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #cbd5e0;
+}
+
+.clear-btn {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #a0aec0;
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.clear-btn:hover {
+  border-color: #f87171;
+  color: #f87171;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.empty-msg {
+  color: #4a5568;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 16px 0;
+}
+
+.history-item {
+  background: rgba(255,255,255,0.04);
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.history-time {
+  font-size: 0.72rem;
+  color: #4a5568;
+}
+
+.history-balls {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.history-balls .ball {
+  width: 34px;
+  height: 34px;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 480px) {
+  header h1 { font-size: 1.8rem; }
+  .ball { width: 38px; height: 38px; font-size: 0.82rem; }
+}

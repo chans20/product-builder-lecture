@@ -1,14 +1,41 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
+  <title>로또 번호 추천</title>
   <link href='/style.css' rel='stylesheet'>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
+  <div class="container">
+    <header>
+      <h1>🍀 로또 번호 추천</h1>
+      <p class="subtitle">행운의 번호를 뽑아보세요!</p>
+    </header>
+
+    <section class="controls">
+      <label for="set-count">추천 게임 수</label>
+      <div class="count-selector">
+        <button id="count-down" class="count-btn">−</button>
+        <span id="set-count">5</span>
+        <button id="count-up" class="count-btn">+</button>
+      </div>
+      <button id="generate-btn" class="generate-btn">번호 추천받기</button>
+    </section>
+
+    <section id="results" class="results"></section>
+
+    <section class="history-section">
+      <div class="history-header">
+        <h2>추첨 기록</h2>
+        <button id="clear-history" class="clear-btn">기록 삭제</button>
+      </div>
+      <div id="history-list" class="history-list">
+        <p class="empty-msg">아직 추첨 기록이 없습니다.</p>
+      </div>
+    </section>
+  </div>
+
   <script defer type="text/javascript" src="/main.js"></script>
 </body>
 </html>
