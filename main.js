@@ -138,3 +138,108 @@ document.getElementById('clear-history').addEventListener('click', () => {
 });
 
 renderHistory();
+
+// ---- 당첨 번호 조회 ----
+const CORS_PROXY = 'https://api.allorigins.win/get?url=';
+const LOTTO_API  = 'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=';
+
+// 1회차(2002-12-07) 기준으로 현재 최신 회차 추산
+function estimateLatestRound() {
+  const round1Ms = new Date('2002-12-07').getTime();
+  const nowMs    = Date.now();
+  return Math.floor((nowMs - round1Ms) / (7 * 24 * 60 * 60 * 1000)) + 1;
+}
+
+async function fetchLottoResult(drwNo) {
+  const target = encodeURIComponent(LOTTO_API + drwNo);
+  const res = await fetch(CORS_PROXY + target);
+  if (!res.ok) throw new Error('network');
+  const wrapper = await res.json();
+  const data = JSON.parse(wrapper.contents);
+  if (data.returnValue !== 'success') throw new Error('not found');
+  return data;
+}
+
+function formatPrize(won) {
+  return Number(won).toLocaleString('ko-KR') + '원';
+}
+
+function renderLookupResult(data) {
+  const el = document.getElementById('lookup-result');
+  const nums = [data.drwtNo1, data.drwtNo2, data.drwtNo3, data.drwtNo4, data.drwtNo5, data.drwtNo6];
+
+  const card = document.createElement('div');
+  card.className = 'win-card';
+
+  const info = document.createElement('div');
+  info.className = 'win-info';
+  info.innerHTML = `<span class="win-round">제 ${data.drwNo}회</span><span class="win-date">${data.drwNoDate}</span>`;
+
+  const ballsRow = document.createElement('div');
+  ballsRow.className = 'win-balls-row';
+
+  nums.forEach((n, i) => {
+    const b = document.createElement('div');
+    b.className = `ball ${ballClass(n)}`;
+    b.textContent = n;
+    b.style.animationDelay = `${i * 0.07}s`;
+    ballsRow.appendChild(b);
+  });
+
+  const sep = document.createElement('div');
+  sep.className = 'bonus-sep';
+  sep.textContent = '+';
+  ballsRow.appendChild(sep);
+
+  const bonus = document.createElement('div');
+  bonus.className = `ball ${ballClass(data.bnusNo)} bonus`;
+  bonus.textContent = data.bnusNo;
+  bonus.style.animationDelay = '0.49s';
+  ballsRow.appendChild(bonus);
+
+  const prize = document.createElement('div');
+  prize.className = 'win-prize';
+  prize.innerHTML = `<div>1등 당첨금 <span>${formatPrize(data.firstWinamnt)}</span></div><div>1등 당첨자 <span>${data.firstPrzwnerCo}명</span></div>`;
+
+  card.appendChild(info);
+  card.appendChild(ballsRow);
+  card.appendChild(prize);
+
+  el.innerHTML = '';
+  el.appendChild(card);
+}
+
+function setLookupStatus(msg, loading = false) {
+  const el = document.getElementById('lookup-result');
+  el.innerHTML = `<div class="lookup-status">${loading ? '<div class="spinner"></div>' : ''}${msg}</div>`;
+}
+
+function setLookupError(msg) {
+  document.getElementById('lookup-result').innerHTML = `<div class="lookup-error">${msg}</div>`;
+}
+
+async function lookup(drwNo) {
+  setLookupStatus('조회 중...', true);
+  try {
+    const data = await fetchLottoResult(drwNo);
+    renderLookupResult(data);
+  } catch {
+    setLookupError('조회에 실패했습니다. 회차 번호를 확인하거나 잠시 후 다시 시도해주세요.');
+  }
+}
+
+document.getElementById('lookup-btn').addEventListener('click', () => {
+  const val = parseInt(document.getElementById('round-input').value, 10);
+  if (!val || val < 1) { setLookupError('유효한 회차 번호를 입력해주세요.'); return; }
+  lookup(val);
+});
+
+document.getElementById('round-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('lookup-btn').click();
+});
+
+document.getElementById('latest-btn').addEventListener('click', () => {
+  const est = estimateLatestRound();
+  document.getElementById('round-input').value = est;
+  lookup(est);
+});
